@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:命名空间，主要用于statement分类管理唯一标识符
+    注意:在mapper代理模式开发时，这个有另外的特殊作用
+-->
+<mapper namespace="com.hand.springcloud.dao.DeptDao">
+
+
+    <select id="findById" parameterType="long" resultType="com.hand.china.springcloud.entities.Dept">
+        select * from dept where deptno=#{deptno};
+    </select>
+
+    <select id="findAll" resultType="com.hand.china.springcloud.entities.Dept">
+        select * from dept ;
+    </select>
+
+    <insert id="addDept" parameterType="com.hand.china.springcloud.entities.Dept">
+        insert into dept (dname,dbsource) values(#{dname},#{dbsource});
+    </insert>
+</mapper>

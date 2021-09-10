@@ -1,0 +1,14 @@
+package com.hand.springcloud.service;
+
+import com.hand.china.springcloud.entities.Dept;
+import com.hand.china.springcloud.entities.Emp;
+
+import java.util.List;
+
+public interface DeptService
+{
+    public boolean add(Dept dept);
+    public Dept    get(Long id);
+    public List<Dept> list();
+    public boolean UpdateDept(Dept dept);
+}

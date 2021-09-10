@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:命名空间，主要用于statement分类管理唯一标识符
+    注意:在mapper代理模式开发时，这个有另外的特殊作用
+-->
+<mapper namespace="com.hand.springcloud.dao.EmpDao">
+    
+   <!-- <resultMap id="DuoMap" type="com.hand.china.springcloud.entities.Duo">
+        <id column="employee_id" property="employee_id"/>
+        <result column="employee_num" property="employee_num"/>
+        <result column="first_name" property="first_name"/>
+        <result column="Last_name" property="Last_name"/>
+        <result column="sex" property="sex"/>
+        <result column="phone_num" property="phone_num"/>
+        <result column="email" property="email"/>
+        <result column="hire_date" property="hire_date"/>
+        <result column="department_id" property="department_id"/>
+        <result column="status_code" property="status_code"/>
+        <association property="dept" javaType="com.hand.china.springcloud.entities.Dept">
+            <id column="department_id" property="department_id"/>
+            <result column="department_code" property="department_code"/>
+            <result column="department_name" property="department_name"/>
+            <result column="manager_id" property="manager_id"/>
+            <result column="location_id" property="location_id"/>
+        </association>
+    </resultMap>-->
+
+    <select id="findById" resultType="com.hand.china.springcloud.entities.Emp" parameterType="Long">
+        select *
+        from hand_employees where employee_id=#{employee_id};
+    </select>
+
+    <!--<select id="findByDeptCode" resultMap="DuoMap" parameterType="String">
+        select a.first_name,a.Last_name,a.email,a.sex,a.phone_num,b.department_code,
+        b.department_name
+        from hand_employees a,hand_departments b
+        where b.department_id=a.department_id and department_code=#{department_code}
+    </select>-->
+
+    <select id="findByDeptCode" resultType="com.hand.china.springcloud.entities.He" parameterType="String">
+        select a.first_name,a.Last_name,a.email,a.sex,a.phone_num,b.department_code,
+               b.department_name,c.province,c.city,c.address,d.job_name
+        from hand_employees a,hand_departments b,hand_locations c,hand_jobs d
+        where b.department_id=a.department_id and b.location_id=c.location_id and
+                a.employee_id=d.employee_id and
+                department_code=#{department_code}
+
+    </select>
+
+    <!--<select id="findByDuo" resultMap="DuoMap" parameterType="String">
+        select a.first_name,a.Last_name,a.email,a.sex,a.phone_num,b.department_code,
+            b.department_name
+        from hand_employees a,hand_departments b
+
+        <where>
+            b.department_id=a.department_id and 1=1
+            <if test="department_code!=null">
+                and department_code=#{department_code}
+            </if>
+            <if test="first_name!=null">
+                and first_name like concat('%',#{first_name},'%')
+            </if>
+            <if test="Last_name!=null">
+                and Last_name like concat('%',#{Last_name},'%')
+            </if>
+        </where>
+
+    </select>-->
+
+    <select id="findAll" resultType="com.hand.china.springcloud.entities.Emp">
+        select *
+        from hand_employees;
+    </select>
+    <insert id="addEmp" parameterType="com.hand.china.springcloud.entities.Emp">
+        insert into hand_employees(employee_id,employee_num,first_name,Last_name,
+                                   sex,phone_num,email,hire_date,department_id,status_code)
+        values(#{employee_id},#{employee_num},#{first_name},
+               #{Last_name},#{sex},#{phone_num},#{email},#{hire_date},
+               #{department_id},#{status_code});
+    </insert>
+
+    <update id="UpdateEmp" parameterType="com.hand.china.springcloud.entities.Emp">
+        update hand_employees set
+                employee_id=#{employee_id},employee_num=#{employee_num},first_name=#{first_name}
+                ,Last_name=#{Last_name},sex=#{sex},phone_num=#{phone_num},email=#{email}
+                ,hire_date=#{hire_date},department_id=#{department_id},status_code=#{status_code}
+        where employee_id=#{employee_id};
+    </update>
+
+</mapper>
